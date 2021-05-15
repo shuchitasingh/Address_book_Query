@@ -1,0 +1,224 @@
+1-Ability to create a Address Book Service DB....
+mysql>  show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.15 sec)
+
+mysql> use world;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.09 sec)
+
+2-Ability to create a Address Book Table with first and last names, address, city,state, zip, phone number and email as its attributes..
+
+mysql>  create table address_book
+    (
+     id int not null AUTO_INCREMENT,
+      First_name varchar(200) not null, 
+      Last_name varchar(150)not null,
+      city varchar(200) not null,
+      address varchar(200)not null,
+      state varchar(200)not null,
+     zip varchar(10) not null,
+      phone_no varchar(150) not null,
+      email varchar(200),
+     primary key(id)
+     );
+Query OK, 0 rows affected (0.03 sec)
+
+
+
+mysql> desc address_book;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int          | NO   | PRI | NULL    | auto_increment |
+| First_name | varchar(200) | YES  |     | NULL    |                |
+| Last_name  | varchar(150) | NO   |     | NULL    |                |
+| address    | varchar(200) | NO   |     | NULL    |                |
+| state      | varchar(200) | NO   |     | NULL    |                |
+| zip        | varchar(10)  | NO   |     | NULL    |                |
+| phone_no   | varchar(150) | NO   |     | NULL    |                |
+| email      | varchar(200) | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.06 sec)
+
+3-Ability to insert new Contacts to Address Book
+
+mysql> mysql> insert into address_book (First_name,Last_name,city,address,state,zip,phone_no,email)
+    ->      values('shuchita','singh','jeevan garden','kanpur','up',208007,'09096795337','singh@gmail.com');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into address_book (First_name,Last_name,city,address,state,zip,phone_no,email)
+    ->      values('ram','dev','jeevan garden','kanpur','up',204507,'090967957897','ram@gmail.com');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into address_book (First_name,Last_name,city,address,state,zip,phone_no,email)
+    ->      values('rohan','kalp','kothrud','pune','mh',411030,'09096795337','rohan@gmail.com');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into address_book (First_name,Last_name,city,address,state,zip,phone_no,email)
+    ->      values('shuchita','singh','jeevan garden','kanpur','up',208007,'09096795337','singh@gmail.com');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select*from address_book;
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+| id | First_name | Last_name | city          | address | state | zip    | phone_no     | email           |
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+|  1 | shuchita   | singh     | jeevan garden | kanpur  | up    | 208007 | 09096795337  | singh@gmail.com |
+|  2 | ram        | dev       | jeevan garden | kanpur  | up    | 204507 | 090967957897 | ram@gmail.com   |
+|  3 | rohan      | kalp      | kothrud       | pune    | mh    | 411030 | 09096795337  | rohan@gmail.com |
+|  4 | shuchita   | singh     | jeevan garden | kanpur  | up    | 208007 | 09096795337  | singh@gmail.com |
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+4 rows in set (0.00 sec)
+
+4- Ability to edit existing contact person using their name...
+
+mysql>  update address_book
+    ->      SET First_name ='devid'
+    ->      where First_name ='shuchita'
+    ->      ;
+Query OK, 2 rows affected (0.06 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select*from address_book;
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+| id | First_name | Last_name | city          | address | state | zip    | phone_no     | email           |
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+|  1 | devid      | singh     | jeevan garden | kanpur  | up    | 208007 | 09096795337  | singh@gmail.com |
+|  2 | ram        | dev       | jeevan garden | kanpur  | up    | 204507 | 090967957897 | ram@gmail.com   |
+|  3 | rohan      | kalp      | kothrud       | pune    | mh    | 411030 | 09096795337  | rohan@gmail.com |
+|  4 | devid      | singh     | jeevan garden | kanpur  | up    | 208007 | 09096795337  | singh@gmail.com |
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+4 rows in set (0.05 sec)
+
+5-Ability to delete a person using person's name...
+
+
+mysql>  delete from address_book where First_name='devid';
+Query OK, 2 rows affected (0.06 sec)
+
+mysql> select*from address_book;
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+| id | First_name | Last_name | city          | address | state | zip    | phone_no     | email           |
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+|  2 | ram        | dev       | jeevan garden | kanpur  | up    | 204507 | 090967957897 | ram@gmail.com   |
+|  3 | rohan      | kalp      | kothrud       | pune    | mh    | 411030 | 09096795337  | rohan@gmail.com |
++----+------------+-----------+---------------+---------+-------+--------+--------------+-----------------+
+2 rows in set (0.05 sec)
+
+
+6-Ability to Retrieve Person belonging to a City or State from the Address Book...
+
+
+mysql> select*from address_book;
+
+mysql> select First_name from address_book where city ='kothrud';
++------------+
+| First_name |
++------------+
+| rohan      |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select First_name from address_book where state ='mh';
++------------+
+| First_name |
++------------+
+| rohan      |
++------------+
+1 row in set (0.00 sec)
+
+7-Ability to understand the size of address book by City and State
+
+select COUNT(state),city
+    -> from address_book
+    -> GROUP BY city
+    -> ORDER BY COUNT(state)desc;
++--------------+---------------+
+| COUNT(state) | city          |
++--------------+---------------+
+|            1 | jeevan garden |
+|            1 | kothrud       |
++--------------+---------------+
+2 rows in set (0.05 sec)
+
+
+
+8-Ability to retrieve entries sorted alphabetically by Person’s name for a given city
+
+SELECT city, First_name, Last_name FROM address_book ORDER BY city;
++---------------+------------+-----------+
+| city          | First_name | Last_name |
++---------------+------------+-----------+
+| jeevan garden | ram        | dev       |
+| kothrud       | rohan      | kalp      |
++---------------+------------+-----------+
+2 rows in set (0.05 sec)
+
+mysql> SELECT DISTINCT city,First_name, Last_name FROM address_book ORDER BY city DESC ;
++---------------+------------+-----------+
+| city          | First_name | Last_name |
++---------------+------------+-----------+
+| kothrud       | rohan      | kalp      |
+| jeevan garden | ram        | dev       |
++---------------+------------+-----------+
+2 rows in set (0.00 sec)
+
+
+9--
+mysql> CREATE TABLE address_book_1 (
+    ->     book_id int NOT NULL,
+    ->     firstname varchar(200) NOT NULL,
+    ->     lastname varchar(200) NOT NULL,
+    ->     city varchar(150) NOT NULL,
+    ->     address varchar(200) NOT NULL,
+    ->     address_email varchar(150) NOT NULL,
+    ->     PRIMARY KEY (book_id)
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> DESC address_book_1;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| book_id       | int          | NO   | PRI | NULL    |       |
+| firstname     | varchar(200) | NO   |     | NULL    |       |
+| lastname      | varchar(200) | NO   |     | NULL    |       |
+| city          | varchar(150) | NO   |     | NULL    |       |
+| address       | varchar(200) | NO   |     | NULL    |       |
+| address_email | varchar(150) | NO   |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+ALTER TABLE address_book_1
+  DROP COLUMN address_email;
+CREATE TABLE address_book_details (
+    zip int NOT NULL,
+    state  varchar(200) NOT NULL,
+   email varchar(200) NOT NULL  PRIMARY KEY,
+    book_id int FOREIGN KEY REFERENCES address_book_details(book_id)
+);
+mysql> desc address_book_details;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| zip   | int          | NO   |     | NULL    |       |
+| state | varchar(200) | NO   |     | NULL    |       |
+| email | varchar(200) | NO   | PRI | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.06 sec)
